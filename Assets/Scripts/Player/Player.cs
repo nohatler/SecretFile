@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, Initialization
+public class Player : MonoBehaviour, Initialization, Death
 {
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private PlayerConfig _playerConfig;
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour, Initialization
         _canAttack = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         Controll();
         StartCoroutine(Attack());
@@ -63,5 +63,16 @@ public class PlayerController : MonoBehaviour, Initialization
     private bool Touch()
     {
         return Input.GetMouseButton(0) || Input.touchCount > 0;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        _hp -= damage;
+        Death();
+    }
+    public void Death()
+    {
+        if (_hp <= 0)
+            Destroy(gameObject);
     }
 }

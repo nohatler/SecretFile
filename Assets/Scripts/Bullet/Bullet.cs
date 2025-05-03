@@ -16,21 +16,35 @@ public class Bullet : MonoBehaviour
         _damage = _bulletConfig.Damage;
         _speed = _bulletConfig.Speed;
         _lifeTime = _bulletConfig.LifeTime;
-        StartCoroutine(DestroyBullet());
+        StartCoroutine(DestroyBulletIfLeftTime());
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _rb.AddForce(transform.forward * _speed, ForceMode.Impulse);
     }
 
-    private IEnumerator DestroyBullet()
+    private void DestroyBullet()
+    {
+        Destroy(gameObject);
+    }
+
+    private IEnumerator DestroyBulletIfLeftTime()
     {
         while (true)
         {
             yield return new WaitForSeconds(_lifeTime);
-            Destroy(gameObject);
+            DestroyBullet();
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject hit = collision.gameObject;
+        if (hit.CompareTag("Enemy") || hit.CompareTag("Player"))
+        {
+            hit.GetComponent<Death>().TakeDamage(_damage);
+            DestroyBullet();
+        }
+    }
 }
