@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, Death
+public class Enemy : MonoBehaviour, IUnit
 {
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private GameObject _player;
@@ -14,7 +14,6 @@ public class Enemy : MonoBehaviour, Death
     private float _radiusAttack;
     private bool _canAttack;
 
-
     private void Start()
     {
         _canAttack = true;
@@ -22,11 +21,11 @@ public class Enemy : MonoBehaviour, Death
 
     private void FixedUpdate()
     {
-        Move();
+        HandleMovement();
         StartCoroutine(Attack());
     }
 
-    private void Move()
+    public void HandleMovement()
     {
         if (!_canAttack)
             return;
@@ -37,7 +36,7 @@ public class Enemy : MonoBehaviour, Death
         _rb.velocity = transform.forward * _speed;
     }
 
-    private IEnumerator Attack()
+    public IEnumerator Attack()
     {
         if (Vector3.Distance(transform.position, _player.transform.position) <= _radiusAttack && _canAttack)
         {
@@ -45,6 +44,8 @@ public class Enemy : MonoBehaviour, Death
 
             yield return new WaitForSeconds(2f);
             Instantiate(_bullet, _spawnAttack.transform.position, _spawnAttack.transform.rotation);
+
+            _canAttack = true;
         }
     }
 
@@ -57,7 +58,10 @@ public class Enemy : MonoBehaviour, Death
     public void Death()
     {
         if (_hp <= 0)
+        {
+            UIEventManager.SendAddScore();
             Destroy(gameObject);
+        }
     }
 
     #region Get/Set

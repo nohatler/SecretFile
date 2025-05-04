@@ -4,15 +4,14 @@ using UnityEngine;
 public class InitializationGame : MonoBehaviour
 {
     [SerializeField] private Player _playerController;
-    [SerializeField] private List<Spawner> _spawners;
+    [SerializeField] private Spawner _spawner;
+    [SerializeField] private UIManager _uiManager;
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         _playerController.Init();
-
-        foreach(var spawner in _spawners)
-        {
-            spawner.Init();
-        }
+        _uiManager.Init();
+        _spawner.Init();
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Player : MonoBehaviour, Initialization, Death
+public class Player : MonoBehaviour, IInitialization, IUnit
 {
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private PlayerConfig _playerConfig;
@@ -21,11 +21,11 @@ public class Player : MonoBehaviour, Initialization, Death
 
     private void FixedUpdate()
     {
-        Controll();
+        HandleMovement();
         StartCoroutine(Attack());
     }
 
-    private void Controll()
+    public void HandleMovement()
     {
         if (!Touch())
             return;
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour, Initialization, Death
         }
     }
 
-    private IEnumerator Attack()
+    public IEnumerator Attack()
     {
         if (!Touch() || !_canAttack)
             yield break;
@@ -73,6 +73,9 @@ public class Player : MonoBehaviour, Initialization, Death
     public void Death()
     {
         if (_hp <= 0)
+        {
+            UIEventManager.SendShowLoseWindow();
             Destroy(gameObject);
+        }
     }
 }

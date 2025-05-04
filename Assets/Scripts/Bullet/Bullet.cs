@@ -43,7 +43,7 @@ public class Bullet : MonoBehaviour
         GameObject hit = collision.gameObject;
         if (hit.CompareTag("Enemy") || hit.CompareTag("Player"))
         {
-            hit.GetComponent<Death>().TakeDamage(_damage);
+            hit.GetComponent<IUnit>().TakeDamage(_damage);
             DestroyBullet();
         }
     }

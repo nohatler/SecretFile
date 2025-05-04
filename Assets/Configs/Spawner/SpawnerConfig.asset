@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36bf732954121b0438461f7d4f58318c, type: 3}
   m_Name: SpawnerConfig
   m_EditorClassIdentifier: 
-  _maxSpawnInterval: 25
+  _spawnInterval: 7
   _enemyList:
   - {fileID: 1922597233177877504, guid: 952f6b97ff96209489b28cefdd67f9a4, type: 3}
   - {fileID: 5808566218407602156, guid: 717e419b09725c542850dfd3d2c08d84, type: 3}

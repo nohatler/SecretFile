@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Enemy1Config
   m_EditorClassIdentifier: 
   _hp: 1
-  _speed: 6
-  _radiusAttack: 11
+  _speed: 14
+  _radiusAttack: 20
